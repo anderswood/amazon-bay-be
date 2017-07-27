@@ -8,10 +8,7 @@ app.set('port', process.env.PORT || 3001);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}));
 
-app.locals.inventory = [
-  {invTitle: 'title1', invDescription: 'desc1', invImgURL: 'img1', invPrice: 'price1' },
-  {invTitle: 'title3', invDescription: 'desc2', invImgURL: 'img2', invPrice: 'price2' },
-]
+app.locals.inventory = require('./inventory.js');
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin','*')
