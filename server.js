@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 
 app.set('port', process.env.PORT || 3001);
 
-app.use(express.static(`${__dirname}/public`));
+// app.use(express.static(`${__dirname}/public`));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}));
 
@@ -18,10 +18,14 @@ app.get('/', (req, res) => {
 });
 
 app.get('/api/v1/inventory', (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin','*')
   res.status(200).json(app.locals.inventory);
 });
 
+
+
 // app.post('/api/v1/orderhistory', (req, res) => {
+//   res.setHeader('Access-Control-Allow-Origin','*')
 //   app.locals.orderhistory = req.body;
 //   res.status(201);
 // })
