@@ -13,10 +13,18 @@ app.locals.inventory = [
   {invTitle: 'title3', invDescription: 'desc2', invImgURL: 'img2', invPrice: 'price2' },
 ]
 
+app.get('/', (req, res) => {
+  res.send('All the important words!');
+});
+
 app.get('/api/v1/inventory', (req, res) => {
   res.status(200).json(app.locals.inventory);
 });
 
+// app.post('/api/v1/orderhistory', (req, res) => {
+//   app.locals.orderhistory = req.body;
+//   res.status(201);
+// })
 
 if (!module.parent) {
   app.listen(app.get('port'), () => {
