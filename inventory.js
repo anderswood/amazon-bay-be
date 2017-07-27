@@ -14,7 +14,8 @@ module.exports = [
   {
     invTitle: 'Jesus Air Freshener',
     invDescription: 'An air freshener that\'s always got your back',
-    invImgURL: 'http://i.imgur.com/9uu0Eab.png'
+    invImgURL: 'http://i.imgur.com/9uu0Eab.png',
+    invPrice: '495'
   },
   {
     invTitle: 'Man Squid Hat',
