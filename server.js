@@ -13,12 +13,17 @@ app.locals.inventory = [
   {invTitle: 'title3', invDescription: 'desc2', invImgURL: 'img2', invPrice: 'price2' },
 ]
 
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin','*')
+  next();
+});
+
 app.get('/', (req, res) => {
   res.send('All the important words!');
 });
 
 app.get('/api/v1/inventory', (req, res) => {
-  res.setHeader('Access-Control-Allow-Origin','*')
+  // res.setHeader('Access-Control-Allow-Origin','*')
   res.status(200).json(app.locals.inventory);
 });
 
