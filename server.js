@@ -9,9 +9,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}));
 
 app.locals.inventory = require('./inventory.js');
+app.locals.orderHistory = [];
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin','*')
+  res.setHeader('Access-Control-Allow-Headers', 'Origin, Content-Type')
+  res.setHeader('Access-Control-Allow-Methods', 'DELETE')
   next();
 });
 
@@ -20,17 +23,25 @@ app.get('/', (req, res) => {
 });
 
 app.get('/api/v1/inventory', (req, res) => {
-  // res.setHeader('Access-Control-Allow-Origin','*')
   res.status(200).json(app.locals.inventory);
 });
 
+app.get('/api/v1/orderHistory', (req, res) => {
+  res.status(200).json(app.locals.orderHistory);
+});
 
+app.post('/api/v1/orderHistory', (req, res) => {
+  let orderHistoryArr = app.locals.orderHistory;
+  let newOrderHistoryObj = req.body;
+  orderHistoryArr.push(newOrderHistoryObj);
+  app.locals.orderHistory = orderHistoryArr;
+  res.status(201);
+})
 
-// app.post('/api/v1/orderhistory', (req, res) => {
-//   res.setHeader('Access-Control-Allow-Origin','*')
-//   app.locals.orderhistory = req.body;
-//   res.status(201);
-// })
+app.delete('/api/v1/orderHistory', (req, res) => {
+  app.locals.orderHistory = [];
+  res.status(200)
+})
 
 if (!module.parent) {
   app.listen(app.get('port'), () => {
