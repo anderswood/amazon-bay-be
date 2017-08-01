@@ -46,15 +46,12 @@ describe('API Routes', () => {
       });
     });
 
-    it('should return ', done => {
+    it('should return 404 with incorrect url', done => {
       chai.request(server)
-      .get('/api/v1/inventory')
+      .get('/api/v1/inventoryy')
       .end((err, res) => {
-        res.should.have.status(200);
-        res.should.be.json;
-        res.body.should.be.a('array');
-        res.body.length.should.equal(6);
-        res.body[0].invPrice.should.equal('2999');
+        res.should.have.status(404);
+        res.should.be.html;
         done();
       });
     });
@@ -72,22 +69,47 @@ describe('API Routes', () => {
         done();
       });
     });
+
+    it('should return 404 with incorrect url', done => {
+      chai.request(server)
+      .get('/api/v1/orderHistoryy')
+      .end((err, res) => {
+        res.should.have.status(404);
+        res.should.be.html;
+        done();
+      });
+    });
+
   });
   describe('POST /api/v1/orderHistory', () => {
 
     let orderBody = {totalCost: "$49.94", dateOrdered: "07/27/2017, 5:10 pm"}
 
-    it.skip('should return all of the order history', done => {
+    it('should return 201', done => {
       chai.request(server)
       .post('/api/v1/orderHistory')
       .send(orderBody)
       .end((err, res) => {
         res.should.have.status(201);
         res.should.be.json;
-        res.body.should.be.a('array');
+        res.body.should.be.a('object');
         chai.request(server)
         done()
+      });
+    });
 
+    let orderBody2 = {totalCost: "$49.94"}
+
+    it('should return 422', done => {
+      chai.request(server)
+      .post('/api/v1/orderHistory')
+      .send(orderBody2)
+      .end((err, res) => {
+        res.should.have.status(422);
+        res.should.be.json;
+        res.body.error.should.equal('include valid values in the body of your post request');
+        chai.request(server)
+        done()
       });
     });
   });

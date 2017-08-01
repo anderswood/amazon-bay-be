@@ -31,15 +31,16 @@ app.get('/api/v1/orderHistory', (req, res) => {
 
 app.post('/api/v1/orderHistory', (req, res) => {
   let orderHistoryArr = app.locals.orderHistory;
-  let newOrderHistoryObj = req.body;
-  orderHistoryArr.push(newOrderHistoryObj);
-  app.locals.orderHistory = orderHistoryArr;
-  res.status(201);
-})
-
-app.delete('/api/v1/orderHistory', (req, res) => {
-  app.locals.orderHistory = [];
-  res.status(200)
+  if (req.body.totalCost && req.body.dateOrdered) {
+    let newOrderHistoryObj = req.body;
+    orderHistoryArr.push(newOrderHistoryObj);
+    app.locals.orderHistory = orderHistoryArr;
+    res.status(201).json(req.body);
+  } else {
+    res.status(422).json({
+      error: 'include valid values in the body of your post request'
+    })
+  }
 })
 
 if (!module.parent) {
